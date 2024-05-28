@@ -1,37 +1,55 @@
 using Api.Services.SampleSoap;
-using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class TestController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class TestController : ControllerBase
+    private readonly ILogger<TestController> _logger;
+    private readonly ISampleSoapRestService _sampleSoapRestService;
+    private readonly IEnerjisaSoapRestService _enerjisaSoapRestService;
+
+    public TestController(ILogger<TestController> logger
+        , ISampleSoapRestService sampleSoapRestService
+        , IEnerjisaSoapRestService enerjisaSoapRestService)
     {
-        private readonly ILogger<TestController> _logger;
-        private readonly ISampleSoapRestService _sampleSoapRestService;
+        _logger = logger;
+        _sampleSoapRestService = sampleSoapRestService;
+        _enerjisaSoapRestService = enerjisaSoapRestService;
+    }
 
-        public TestController(ILogger<TestController> logger
-            , ISampleSoapRestService sampleSoapRestService)
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        _logger.LogInformation("information log ");
+
+        var todaysDilbertResponse = await _sampleSoapRestService.GetTodaysDilbertResponse();
+        var dailyDilbertResponse = await _sampleSoapRestService.GetDailyDilbertAsync(DateTime.Now);
+
+        var responseObject = new
         {
-            _logger = logger;
-            _sampleSoapRestService = sampleSoapRestService;
-        }
+            todaysDilbertResponse,
+            dailyDilbertResponse,
+        };
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        return Ok(responseObject);
+    }
+
+    [HttpGet]
+    [Route("enerji-sa")]
+    public async Task<IActionResult> GetEnerjiSa()
+    {
+        var request = new BorcSorguRequest
         {
-            _logger.LogInformation("information log ");
+            CONTRACT_ACCOUNT_NUMBER = "005000247412",
+            LEGACY_CONTRACT_ACCOUNT_NUMBER = string.Empty,
+            TRIDNUMBER = string.Empty,
+            DOCUMENT_NUMBER = string.Empty,
+        };
 
-            var todaysDilbertResponse = await _sampleSoapRestService.GetTodaysDilbertResponse();
-            var dailyDilbertResponse = await _sampleSoapRestService.GetDailyDilbertAsync(DateTime.Now);
+        var response = await _enerjisaSoapRestService.GetBorcSorgu(request);
 
-            var responseObject = new
-            {
-                todaysDilbertResponse,
-                dailyDilbertResponse,
-            };
-
-            return Ok(responseObject);
-        }
+        return Ok(response);
     }
 }

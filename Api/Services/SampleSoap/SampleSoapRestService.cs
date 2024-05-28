@@ -1,51 +1,47 @@
-﻿using SampleSoapService;
-using System.ServiceModel;
+﻿namespace Api.Services.SampleSoap;
 
-namespace Api.Services.SampleSoap
+public class SampleSoapRestService : ISampleSoapRestService
 {
-    public class SampleSoapRestService : ISampleSoapRestService
+    private readonly EndpointAddress endpointAddress;
+    private readonly BasicHttpBinding basicHttpBinding;
+    private readonly string serviceUrl = "http://www.gcomputer.net/webservices/dilbert.asmx";
+
+    public SampleSoapRestService()
     {
-        private readonly EndpointAddress endpointAddress;
-        private readonly BasicHttpBinding basicHttpBinding;
-        private readonly string serviceUrl = "http://www.gcomputer.net/webservices/dilbert.asmx";
+        endpointAddress = new EndpointAddress(serviceUrl);
 
-        public SampleSoapRestService()
+        basicHttpBinding = new BasicHttpBinding(endpointAddress.Uri.Scheme.ToLower() == "http"
+            ? BasicHttpSecurityMode.None
+            : BasicHttpSecurityMode.Transport)
         {
-            endpointAddress = new EndpointAddress(serviceUrl);
+            //Please set the time accordingly, this is only for demo
+            OpenTimeout = TimeSpan.MaxValue,
+            CloseTimeout = TimeSpan.MaxValue,
+            ReceiveTimeout = TimeSpan.MaxValue,
+            SendTimeout = TimeSpan.MaxValue
+        };
+    }
 
-            basicHttpBinding = new BasicHttpBinding(endpointAddress.Uri.Scheme.ToLower() == "http"
-                ? BasicHttpSecurityMode.None
-                : BasicHttpSecurityMode.Transport)
-            {
-                //Please set the time accordingly, this is only for demo
-                OpenTimeout = TimeSpan.MaxValue,
-                CloseTimeout = TimeSpan.MaxValue,
-                ReceiveTimeout = TimeSpan.MaxValue,
-                SendTimeout = TimeSpan.MaxValue
-            };
-        }
+    public async Task<TodaysDilbertResponse> GetTodaysDilbertResponse()
+    {
+        var client = await GetInstanceAsync();
 
-        public async Task<TodaysDilbertResponse> GetTodaysDilbertResponse()
-        {
-            var client = await GetInstanceAsync();
+        var response = await client.TodaysDilbertAsync();
 
-            var response = await client.TodaysDilbertAsync();
+        return response;
+    }
 
-            return response;
-        }
+    public async Task<DailyDilbertResponse> GetDailyDilbertAsync(DateTime dateTime)
+    {
+        var client = await GetInstanceAsync();
 
-        public async Task<DailyDilbertResponse> GetDailyDilbertAsync(DateTime dateTime)
-        {
-            var client = await GetInstanceAsync();
+        var response = await client.DailyDilbertAsync(dateTime);
 
-            var response = await client.DailyDilbertAsync(dateTime);
+        return response;
+    }
 
-            return response;
-        }
-
-        private async Task<DilbertSoapClient> GetInstanceAsync()
-        {
-            return await Task.Run(() => new DilbertSoapClient(basicHttpBinding, endpointAddress));
-        }
+    private async Task<DilbertSoapClient> GetInstanceAsync()
+    {
+        return await Task.Run(() => new DilbertSoapClient(basicHttpBinding, endpointAddress));
     }
 }

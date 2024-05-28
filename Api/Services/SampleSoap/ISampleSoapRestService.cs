@@ -1,11 +1,8 @@
-﻿using SampleSoapService;
+﻿namespace Api.Services.SampleSoap;
 
-namespace Api.Services.SampleSoap
+public interface ISampleSoapRestService
 {
-    public interface ISampleSoapRestService
-    {
-        Task<TodaysDilbertResponse> GetTodaysDilbertResponse();
+    Task<TodaysDilbertResponse> GetTodaysDilbertResponse();
 
-        Task<DailyDilbertResponse> GetDailyDilbertAsync(DateTime dateTime);
-    }
+    Task<DailyDilbertResponse> GetDailyDilbertAsync(DateTime dateTime);
 }
