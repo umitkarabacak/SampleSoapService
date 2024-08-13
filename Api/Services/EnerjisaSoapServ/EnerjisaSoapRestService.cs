@@ -1,8 +1,7 @@
-﻿using Api.Services.EnerjisaSoapServ;
-using EnerjisaSoapService;
+﻿using EnerjisaSoapService;
 using System.ServiceModel;
 
-namespace Api.Services.SampleSoap
+namespace Api.Services.EnerjisaSoapServ
 {
     public class EnerjisaSoapRestService : IEnerjisaSoapRestService
     {
@@ -33,6 +32,7 @@ namespace Api.Services.SampleSoap
             try
             {
                 var response = await client.BorcSorguAsync(request);
+                
                 return response;
             }
             catch (Exception ex)
