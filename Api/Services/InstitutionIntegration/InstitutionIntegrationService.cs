@@ -5,15 +5,12 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
     private readonly EndpointAddress endpointAddress;
     private readonly BasicHttpBinding basicHttpBinding;
     private readonly InstitutionIntegrationOption institutionIntegrationOption;
-#if DEBUG
-    private readonly string serviceUrl = "http://localhost:5102/DebtService.asmx";
-#else
-    private readonly string serviceUrl = "http://10.1.3.58/InstitutionIntegration/DebtService.asmx";    
-#endif
+    private readonly string serviceUrl;
 
     public InstitutionIntegrationService(IOptions<InstitutionIntegrationOption> options)
     {
         institutionIntegrationOption = options.Value;
+        serviceUrl = institutionIntegrationOption.BaseUrl;
 
         endpointAddress = new EndpointAddress(serviceUrl);
 
@@ -22,7 +19,6 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
             ? BasicHttpSecurityMode.None
             : BasicHttpSecurityMode.Transport)
         {
-            //Please set the time accordingly, this is only for demo
             OpenTimeout = TimeSpan.MaxValue,
             CloseTimeout = TimeSpan.MaxValue,
             ReceiveTimeout = TimeSpan.MaxValue,
