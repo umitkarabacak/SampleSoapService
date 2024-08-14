@@ -1,5 +1,3 @@
-using Api.Services.SampleSoap;
-
 namespace Api.Controllers;
 
 [ApiController]
@@ -9,14 +7,17 @@ public class TestController : ControllerBase
     private readonly ILogger<TestController> _logger;
     private readonly ISampleSoapRestService _sampleSoapRestService;
     private readonly IEnerjisaSoapRestService _enerjisaSoapRestService;
+    private readonly IInstitutionIntegrationService _institutionIntegrationService;
 
     public TestController(ILogger<TestController> logger
         , ISampleSoapRestService sampleSoapRestService
-        , IEnerjisaSoapRestService enerjisaSoapRestService)
+        , IEnerjisaSoapRestService enerjisaSoapRestService
+        , IInstitutionIntegrationService institutionIntegrationService)
     {
         _logger = logger;
         _sampleSoapRestService = sampleSoapRestService;
         _enerjisaSoapRestService = enerjisaSoapRestService;
+        _institutionIntegrationService = institutionIntegrationService;
     }
 
     [HttpGet]
@@ -49,6 +50,15 @@ public class TestController : ControllerBase
         };
 
         var response = await _enerjisaSoapRestService.GetBorcSorgu(request);
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    [Route("debts")]
+    public async Task<IActionResult> GetDebts()
+    {
+        var response = await _institutionIntegrationService.GetDebtsAsync();
 
         return Ok(response);
     }

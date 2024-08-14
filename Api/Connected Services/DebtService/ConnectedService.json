@@ -1,14 +1,14 @@
 {
   "ExtendedData": {
     "inputs": [
-      "http://www.dneonline.com/calculator.asmx?wsdl"
+      "http://10.1.3.58/InstitutionIntegration/DebtService.asmx"
     ],
     "collectionTypes": [
       "System.Array",
       "System.Collections.Generic.Dictionary`2"
     ],
     "namespaceMappings": [
-      "*, ServiceReference1"
+      "*, DebtService"
     ],
     "targetFramework": "net8.0",
     "typeReuseMode": "All"

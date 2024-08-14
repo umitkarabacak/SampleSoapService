@@ -6,6 +6,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ISampleSoapRestService, SampleSoapRestService>();
         services.AddScoped<IEnerjisaSoapRestService, EnerjisaSoapRestService>();
+        services.AddScoped<IInstitutionIntegrationService, InstitutionIntegrationService>();
 
         return services;
     }
