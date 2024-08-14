@@ -2,5 +2,5 @@
 
 public interface IInstitutionIntegrationService
 {
-    Task<DebtQueryResponse> GetDebtsAsync();
+    Task<BaseResponseOfDebtQueryResponse> GetDebtsAsync();
 }

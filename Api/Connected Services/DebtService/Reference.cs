@@ -52,13 +52,14 @@ namespace DebtService
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="BaseResponse", Namespace="http://schemas.datacontract.org/2004/07/InstitutionIntegration.API.Models.Operati" +
+    [System.Runtime.Serialization.DataContractAttribute(Name="BaseResponseOfDebtQueryResponse", Namespace="http://schemas.datacontract.org/2004/07/InstitutionIntegration.API.Models.Operati" +
         "ons")]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(DebtService.DebtQueryResponse))]
-    public partial class BaseResponse : object
+    public partial class BaseResponseOfDebtQueryResponse : object
     {
         
         private string CodeField;
+        
+        private DebtService.DebtQueryResponse DataField;
         
         private string MessageField;
         
@@ -72,6 +73,19 @@ namespace DebtService
             set
             {
                 this.CodeField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public DebtService.DebtQueryResponse Data
+        {
+            get
+            {
+                return this.DataField;
+            }
+            set
+            {
+                this.DataField = value;
             }
         }
         
@@ -93,7 +107,7 @@ namespace DebtService
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="DebtQueryResponse", Namespace="http://schemas.datacontract.org/2004/07/InstitutionIntegration.API.Models.Operati" +
         "ons")]
-    public partial class DebtQueryResponse : DebtService.BaseResponse
+    public partial class DebtQueryResponse : object
     {
         
         private DebtService.DebtQueryResponseItem[] DebtsField;
@@ -276,7 +290,7 @@ namespace DebtService
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDebtService/GetDebts", ReplyAction="http://tempuri.org/IDebtService/GetDebtsResponse")]
-        System.Threading.Tasks.Task<DebtService.DebtQueryResponse> GetDebtsAsync(DebtService.DebtQueryRequest request);
+        System.Threading.Tasks.Task<DebtService.BaseResponseOfDebtQueryResponse> GetDebtsAsync(DebtService.DebtQueryRequest request);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
@@ -329,7 +343,7 @@ namespace DebtService
         {
         }
         
-        public System.Threading.Tasks.Task<DebtService.DebtQueryResponse> GetDebtsAsync(DebtService.DebtQueryRequest request)
+        public System.Threading.Tasks.Task<DebtService.BaseResponseOfDebtQueryResponse> GetDebtsAsync(DebtService.DebtQueryRequest request)
         {
             return base.Channel.GetDebtsAsync(request);
         }

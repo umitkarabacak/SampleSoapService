@@ -4,7 +4,7 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
 {
     private readonly EndpointAddress endpointAddress;
     private readonly BasicHttpBinding basicHttpBinding;
-    private readonly string serviceUrl = "http://localhost:5102/DebtService.asmx";
+    private readonly string serviceUrl = "http://10.1.3.58/InstitutionIntegration/DebtService.asmx";
 
     public InstitutionIntegrationService()
     {
@@ -22,7 +22,7 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
         };
     }
 
-    public async Task<DebtQueryResponse> GetDebtsAsync()
+    public async Task<BaseResponseOfDebtQueryResponse> GetDebtsAsync()
     {
         var client = await GetInstanceAsync();
 
