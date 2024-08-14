@@ -14,7 +14,6 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
     public InstitutionIntegrationService(IOptions<InstitutionIntegrationOption> options)
     {
         institutionIntegrationOption = options.Value;
-        serviceUrl = institutionIntegrationOption.BaseUrl;
 
         endpointAddress = new EndpointAddress(serviceUrl);
 
@@ -47,7 +46,6 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
     {
         var client = new DebtServiceClient(basicHttpBinding, endpointAddress);
 
-        // Kullanıcı adı ve şifreyi ayarlayın
         client.ClientCredentials.UserName.UserName = institutionIntegrationOption.UserName;
         client.ClientCredentials.UserName.Password = institutionIntegrationOption.Password;
 

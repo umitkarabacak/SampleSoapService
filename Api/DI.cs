@@ -1,6 +1,6 @@
 ﻿namespace Api.Services;
 
-public static class DependencyInjection
+public static class DI
 {
     public static IServiceCollection AddCustomServices(this IServiceCollection services, IConfiguration configuration)
     {
