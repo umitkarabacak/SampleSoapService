@@ -1,4 +1,5 @@
-﻿global using Api.Services;
+﻿global using Api.Models;
+global using Api.Services;
 global using Api.Services.EnerjisaSoapServ;
 global using Api.Services.SampleSoap;
 global using DebtService;
