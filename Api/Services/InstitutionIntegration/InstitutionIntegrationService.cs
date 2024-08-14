@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-
-namespace Api.Services.SampleSoap;
+﻿namespace Api.Services.SampleSoap;
 
 public class InstitutionIntegrationService : IInstitutionIntegrationService
 {
@@ -20,7 +18,8 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
 
         endpointAddress = new EndpointAddress(serviceUrl);
 
-        basicHttpBinding = new BasicHttpBinding(endpointAddress.Uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase)
+        basicHttpBinding = new BasicHttpBinding(
+            endpointAddress.Uri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase)
             ? BasicHttpSecurityMode.None
             : BasicHttpSecurityMode.Transport)
         {
@@ -30,9 +29,6 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
             ReceiveTimeout = TimeSpan.MaxValue,
             SendTimeout = TimeSpan.MaxValue,
         };
-
-        basicHttpBinding.Security.Mode = BasicHttpSecurityMode.None;
-        basicHttpBinding.Security.Transport.ClientCredentialType = HttpClientCredentialType.Basic;
     }
 
     public async Task<BaseResponseOfDebtQueryResponse> GetDebtsAsync()
@@ -46,17 +42,17 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
         return response;
     }
 
+
     private async Task<DebtServiceClient> GetInstanceAsync()
     {
         var client = new DebtServiceClient(basicHttpBinding, endpointAddress);
 
         // Kullanıcı adı ve şifreyi ayarlayın
-        client.ClientCredentials.UserName.UserName = "0059_seker";// institutionIntegrationOption.UserName;
-        client.ClientCredentials.UserName.Password = "seker";// institutionIntegrationOption.Password;
+        client.ClientCredentials.UserName.UserName = institutionIntegrationOption.UserName;
+        client.ClientCredentials.UserName.Password = institutionIntegrationOption.Password;
 
         await Console.Out.WriteLineAsync(System.Text.Json.JsonSerializer.Serialize(client.ClientCredentials));
 
         return client;
     }
-
 }
