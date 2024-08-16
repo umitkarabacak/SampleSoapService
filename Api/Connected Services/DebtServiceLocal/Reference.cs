@@ -301,7 +301,7 @@ namespace DebtServiceLocal
         
         private string ReferenceNoField;
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public decimal Amount
         {
             get
@@ -314,7 +314,7 @@ namespace DebtServiceLocal
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public System.Guid InvoiceNo
         {
             get
@@ -340,7 +340,7 @@ namespace DebtServiceLocal
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public System.DateTime PaymentDate
         {
             get
@@ -353,7 +353,7 @@ namespace DebtServiceLocal
             }
         }
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
+        [System.Runtime.Serialization.DataMemberAttribute(IsRequired=true)]
         public string ReferenceNo
         {
             get
