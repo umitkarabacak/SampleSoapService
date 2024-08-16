@@ -37,10 +37,32 @@ public class InstitutionIntegrationService : IInstitutionIntegrationService
         return response;
     }
 
+    public async Task GetTestWithLocal()
+    {
+        var client = await GetLocalInstanceAsync();
+
+        var request = new DebtServiceLocal.DebtPaymentRequest();
+
+        var response = await client.DebtPaymentAsync(request, false);
+
+    }
+
 
     private async Task<DebtServiceClient> GetInstanceAsync()
     {
         var client = new DebtServiceClient(basicHttpBinding, endpointAddress);
+
+        client.ClientCredentials.UserName.UserName = institutionIntegrationOption.UserName;
+        client.ClientCredentials.UserName.Password = institutionIntegrationOption.Password;
+
+        await Console.Out.WriteLineAsync(System.Text.Json.JsonSerializer.Serialize(client.ClientCredentials));
+
+        return client;
+    }
+
+    private async Task<DebtServiceLocal.DebtServiceClient> GetLocalInstanceAsync()
+    {
+        var client = new DebtServiceLocal.DebtServiceClient(basicHttpBinding, endpointAddress);
 
         client.ClientCredentials.UserName.UserName = institutionIntegrationOption.UserName;
         client.ClientCredentials.UserName.Password = institutionIntegrationOption.Password;
